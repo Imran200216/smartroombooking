@@ -75,9 +75,10 @@ class OnBoardingScreen extends StatelessWidget {
                             onPressed: () {
                               if (provider.currentPage ==
                                   provider.onBoardingData.length - 1) {
+                                /// user type screen
                                 GoRouter.of(
                                   context,
-                                ).pushReplacementNamed("authLoginScreen");
+                                ).pushReplacementNamed("userTypeScreen");
                               } else {
                                 provider.nextPage;
                               }

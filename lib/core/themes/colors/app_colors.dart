@@ -15,4 +15,12 @@ class AppColors {
   static const errorTextFieldColor = Color(0xFFFF2D2D);
   static const textFieldHintColor = Color(0xFF979797);
   static const outlinedBtnBorderColor = Color(0xFFB6B7B6);
+
+  /// toast color
+  static Color successToastColor = const Color(0xFF02A75A);
+  static Color failureToastColor = const Color(0xFFD92F54);
+
+  /// check box title color
+  /// toast color
+  static Color successCheckBoxTileBgColor = const Color(0xFF02A75A);
 }
