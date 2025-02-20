@@ -46,6 +46,10 @@ dependencies:
   provider: ^6.1.2
   # toast
   toastification: ^2.3.0
+  # cached_network_image:
+  cached_network_image: ^3.4.1
+  # url launcher
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:

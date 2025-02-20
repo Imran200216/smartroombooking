@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 
@@ -55,7 +56,12 @@ class BookNowScreen extends StatelessWidget {
 
               /// second year
               CustomIconBtn(
-                onTap: () {},
+                onTap: () {
+                  /// second year smart room booking screen
+                  GoRouter.of(
+                    context,
+                  ).pushNamed("secondYearSmartRoomBookingScreen");
+                },
                 btnTitle: "Second year",
                 iconPath: "graduate-cap",
               ),
@@ -64,7 +70,12 @@ class BookNowScreen extends StatelessWidget {
 
               /// third year
               CustomIconBtn(
-                onTap: () {},
+                onTap: () {
+                  /// third year smart room booking screen
+                  GoRouter.of(
+                    context,
+                  ).pushNamed("thirdYearSmartRoomBookingScreen");
+                },
                 btnTitle: "Third year",
                 iconPath: "graduate-cap",
               ),
@@ -73,7 +84,12 @@ class BookNowScreen extends StatelessWidget {
 
               /// fourth year
               CustomIconBtn(
-                onTap: () {},
+                onTap: () {
+                  /// fourth year smart room booking screen
+                  GoRouter.of(
+                    context,
+                  ).pushNamed("fourthYearSmartRoomBookingScreen");
+                },
                 btnTitle: "Fourth year",
                 iconPath: "graduate-cap",
               ),

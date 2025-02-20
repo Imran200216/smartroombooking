@@ -5,6 +5,7 @@ import 'package:smartroombooking/core/router/app_router.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/user_role_provider.dart';
 import 'package:smartroombooking/features/bottom_nav/presentation/provider/bottom_nav_provider.dart';
+import 'package:smartroombooking/features/notification/presentation/provider/notification_provider.dart';
 import 'package:smartroombooking/features/on_boarding/presentation/provider/on_boarding_provider.dart';
 import 'package:smartroombooking/features/user_type/presentation/provider/user_type_provider.dart';
 import 'package:toastification/toastification.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
 
         /// bottom nav provider
         ChangeNotifierProvider(create: (context) => BottomNavProvider()),
+
+        /// notification provider
+        ChangeNotifierProvider(create: (context) => NotificationProvider()),
       ],
       builder: (context, child) {
         return ScreenUtilInit(

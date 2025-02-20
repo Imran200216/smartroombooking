@@ -20,7 +20,15 @@ class AppColors {
   static Color successToastColor = const Color(0xFF02A75A);
   static Color failureToastColor = const Color(0xFFD92F54);
 
-  /// check box title color
   /// toast color
   static Color successCheckBoxTileBgColor = const Color(0xFF02A75A);
+
+  /// grey darker color
+  static Color greyDarkerColor = const Color(0xFF707782);
+
+  /// link color
+  static Color linkColor = Colors.blue;
+
+  /// college logo red primary
+  static Color logoRedPrimaryColor = Color(0xFFB12E34);
 }

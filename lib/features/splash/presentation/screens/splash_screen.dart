@@ -24,15 +24,33 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: AppColors.whiteColor,
         body: Center(
-          child: Text(
-            "SmartRoom Booking",
-            style: TextStyle(
-              fontFamily: "Redhat",
-              fontWeight: FontWeight.w700,
-              color: AppColors.blackColor,
-              fontSize: 16.sp,
-            ),
+          child: Column(
+            spacing: 12.h,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /// college logo
+              Image.asset(
+                "assets/img/jpg/splash-logo.jpg",
+                height: 150.h,
+                width: 150.w,
+                fit: BoxFit.cover,
+              ),
+
+              /// text
+              Text(
+                textAlign: TextAlign.start,
+                "Smart Room Booking",
+                style: TextStyle(
+                  fontFamily: "Redhat",
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.logoRedPrimaryColor,
+                  fontSize: 16.sp,
+                ),
+              ),
+            ],
           ),
         ),
       ),
