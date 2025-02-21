@@ -53,6 +53,7 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
                         return Container(
                           width: double.infinity, // Ensure full width
                           padding: const EdgeInsets.all(16.0),
+                          margin: EdgeInsets.symmetric(vertical: 14.h),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,

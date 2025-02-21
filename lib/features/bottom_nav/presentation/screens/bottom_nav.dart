@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:smartroombooking/core/service/custom_haptic.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/features/book_now/presentation/screens/book_now_screen.dart';
 import 'package:smartroombooking/features/bottom_nav/presentation/provider/bottom_nav_provider.dart';
@@ -38,6 +39,7 @@ class BottomNav extends StatelessWidget {
                 // Always show labels
                 selectedIndex: provider.selectedIndex,
                 onDestinationSelected: (value) {
+                  HapticFeedbackUtility.mediumImpact();
                   provider.updateIndex(value); // Update the index in provider
                 },
                 destinations: [

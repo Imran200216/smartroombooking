@@ -148,6 +148,7 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: "Redhat",
                           fontSize: 16,
+                          fontWeight: FontWeight.w700,
                           color: AppColors.linkColor,
                           decoration: TextDecoration.underline,
                           decorationColor: AppColors.linkColor,
@@ -169,6 +170,7 @@ class ProfileScreen extends StatelessWidget {
                         text: 'Sai Kumar Enishetty',
                         style: TextStyle(
                           fontFamily: "Redhat",
+                          fontWeight: FontWeight.w700,
                           fontSize: 16,
                           color: AppColors.linkColor,
                           decoration: TextDecoration.underline,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smartroombooking/core/service/custom_haptic.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
@@ -16,6 +17,14 @@ class NotificationScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              GoRouter.of(context).pop();
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
+        ),
         body: Container(
           margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Center(
@@ -50,7 +59,7 @@ class NotificationScreen extends StatelessWidget {
                 /// sub title color
                 Text(
                   textAlign: TextAlign.center,
-                  ''''📢 Enable notifications to never miss important updates, messages, and alerts. Stay connected with real-time updates, reminders, and notifications tailored just for you!''',
+                  '''📢 Enable notifications to never miss important updates, messages, and alerts. Stay connected with real-time updates, reminders, and notifications tailored just for you!''',
                   style: TextStyle(
                     fontFamily: "Redhat",
                     fontWeight: FontWeight.w600,
