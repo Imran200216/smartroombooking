@@ -26,7 +26,6 @@ class CustomSmartRoomBookingCard extends StatelessWidget {
         onTap();
       },
       child: Container(
-        height: 230.h,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
@@ -51,15 +50,13 @@ class CustomSmartRoomBookingCard extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 10.h),
-
             /// Room card
             Container(
               margin: EdgeInsets.only(
                 left: 12.w,
                 right: 12.w,
-                top: 4.h,
-                bottom: 4.h,
+                top: 6.h,
+                bottom: 6.h,
               ),
               child: Column(
                 spacing: 2.h,

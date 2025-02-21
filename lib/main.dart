@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:smartroombooking/commons/provider/muti_selection_chip_provider.dart';
 import 'package:smartroombooking/core/router/app_router.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/user_role_provider.dart';
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
 
         /// notification provider
         ChangeNotifierProvider(create: (context) => NotificationProvider()),
+
+        /// mutli selection chip provider 
+        ChangeNotifierProvider(create: (context) => MultiSelectionChipProvider()),
       ],
       builder: (context, child) {
         return ScreenUtilInit(
