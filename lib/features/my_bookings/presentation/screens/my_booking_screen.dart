@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
-import 'package:smartroombooking/features/my_bookings/presentation/widgets/custom_smart_room_booking_card.dart';
+import 'package:smartroombooking/features/my_bookings/presentation/widgets/custom_my_smart_room_booking_card.dart';
 
 class MyBookingScreen extends StatelessWidget {
   const MyBookingScreen({super.key});
@@ -38,9 +38,9 @@ class MyBookingScreen extends StatelessWidget {
                     return SizedBox(height: 12.h);
                   },
                   itemBuilder: (context, index) {
-                    return CustomSmartRoomBookingCard(
-                      personName: "Sai Kumar",
-                      roomNo: "Room 201",
+                    return CustomMySmartRoomBookingCard(
+                      personName: "Sai kumar",
+                      roomNo: "Room no 201",
                     );
                   },
                 ),

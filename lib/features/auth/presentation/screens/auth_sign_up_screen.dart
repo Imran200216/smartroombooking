@@ -7,6 +7,7 @@ import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_outlined_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_text_field.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
+import 'package:smartroombooking/features/auth/presentation/provider/google_sign_in_provider.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/user_role_provider.dart';
 
 class AuthSignUpScreen extends StatelessWidget {
@@ -17,8 +18,10 @@ class AuthSignUpScreen extends StatelessWidget {
     /// user role type
     String? selectedRole;
 
-    /// provider
+    /// providers
     final userRoleProvider = Provider.of<UserRoleProvider>(context);
+
+    final googleSignInProvider = Provider.of<GoogleSignInProvider>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -216,7 +219,15 @@ class AuthSignUpScreen extends StatelessWidget {
 
                 /// Google Sign Up Button
                 CustomOutlinedBtn(
-                  onTap: () {},
+                  isLoading: googleSignInProvider.isLoading,
+                  onTap: () {
+                    /// sign in with google functionality
+                    googleSignInProvider.signInWithGoogle(context).then((
+                      value,
+                    ) async {
+                      GoRouter.of(context).pushReplacementNamed("bottomNav");
+                    });
+                  },
                   btnTitle: "Sign Up with Google",
                   iconPath: "google",
                 ),

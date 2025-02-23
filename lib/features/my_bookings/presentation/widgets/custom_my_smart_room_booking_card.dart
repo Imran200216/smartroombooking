@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 
-class CustomSmartRoomBookingCard extends StatelessWidget {
+class CustomMySmartRoomBookingCard extends StatelessWidget {
   final String personName;
   final String roomNo;
 
-  const CustomSmartRoomBookingCard({
+  const CustomMySmartRoomBookingCard({
     super.key,
     required this.personName,
     required this.roomNo,

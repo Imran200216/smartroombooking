@@ -1,4 +1,4 @@
-package com.example.smartroombooking
+package com.smartroombooking.biher
 
 import io.flutter.embedding.android.FlutterActivity
 
