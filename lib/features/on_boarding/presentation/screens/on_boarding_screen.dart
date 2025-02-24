@@ -80,7 +80,7 @@ class OnBoardingScreen extends StatelessWidget {
                                   context,
                                 ).pushReplacementNamed("userTypeScreen");
                               } else {
-                                provider.nextPage;
+                                provider.nextPage();
                               }
                             },
                             child: Text(

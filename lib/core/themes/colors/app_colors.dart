@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  /// safe area color
+  static const Color safeAreaColor=  Color(0xFF6A85F5);
+
   /// primary color
   static const Color primaryColor = Color(0xFF2445CE);
   static const Color whiteColor = Colors.white;
