@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:smartroombooking/core/service/custom_haptic.dart';
+import 'package:smartroombooking/core/service/haptic_feedback_service.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 
 class CustomOutlinedBtn extends StatelessWidget {
@@ -25,7 +25,7 @@ class CustomOutlinedBtn extends StatelessWidget {
           isLoading
               ? null
               : () {
-                HapticFeedbackUtility.lightImpact();
+                HapticFeedbackUtilityService.lightImpact();
 
                 onTap();
               }, // Disable tap when loading

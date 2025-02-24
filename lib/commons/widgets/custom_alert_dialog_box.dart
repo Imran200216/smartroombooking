@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smartroombooking/core/service/custom_haptic.dart';
+import 'package:smartroombooking/core/service/haptic_feedback_service.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 
 class CustomAlertDialogBox extends StatelessWidget {
@@ -37,7 +37,7 @@ class CustomAlertDialogBox extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () {
-            HapticFeedbackUtility.mediumImpact();
+            HapticFeedbackUtilityService.mediumImpact();
             GoRouter.of(context).pop();
           },
           child: Text(
@@ -52,7 +52,7 @@ class CustomAlertDialogBox extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            HapticFeedbackUtility.mediumImpact();
+            HapticFeedbackUtilityService.mediumImpact();
             onConfirm();
           },
           child: Text(

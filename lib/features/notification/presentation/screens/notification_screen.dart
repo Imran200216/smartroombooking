@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:smartroombooking/core/service/custom_haptic.dart';
+import 'package:smartroombooking/core/service/haptic_feedback_service.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/features/notification/presentation/provider/notification_provider.dart';
 
@@ -85,7 +85,7 @@ class NotificationScreen extends StatelessWidget {
                       activeColor: AppColors.primaryColor,
                       onChanged: (value) {
                         /// haptic feed back
-                        HapticFeedbackUtility.mediumImpact();
+                        HapticFeedbackUtilityService.mediumImpact();
 
                         /// toggle notification
                         notificationProvider.toggleNotification(value);

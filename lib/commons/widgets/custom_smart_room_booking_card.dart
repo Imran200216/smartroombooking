@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smartroombooking/core/service/custom_haptic.dart';
+import 'package:smartroombooking/core/service/haptic_feedback_service.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 
 class CustomSmartRoomBookingCard extends StatelessWidget {
@@ -21,7 +21,7 @@ class CustomSmartRoomBookingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        HapticFeedbackUtility.mediumImpact();
+        HapticFeedbackUtilityService.mediumImpact();
 
         onTap();
       },

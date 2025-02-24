@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smartroombooking/core/service/custom_haptic.dart';
+import 'package:smartroombooking/core/service/haptic_feedback_service.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 
 class CustomProfileListTile extends StatelessWidget {
@@ -20,7 +20,7 @@ class CustomProfileListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        HapticFeedbackUtility.mediumImpact();
+        HapticFeedbackUtilityService.mediumImpact();
         onTap();
       },
       trailing: Icon(Icons.arrow_forward_ios_outlined, size: 16.h),

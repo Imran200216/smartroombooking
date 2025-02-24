@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-class HapticFeedbackUtility {
+class HapticFeedbackUtilityService {
   /// Provides general vibration feedback.
   static void generalVibration() {
     HapticFeedback.vibrate();
