@@ -34,7 +34,6 @@ void main() async {
   /// hive initialization
   await Hive.initFlutter();
 
-  /// Hive local db
   /// on boarding status box
   await Hive.openBox('userGetStartedStatusBox');
 

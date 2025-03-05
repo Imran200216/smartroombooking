@@ -72,9 +72,8 @@ class EmailPasswordAuthProvider extends ChangeNotifier {
       notifyListeners();
     } finally {
       _setLoading(false);
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   /// Sign in with email and password
