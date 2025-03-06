@@ -3,6 +3,7 @@ import 'package:smartroombooking/features/auth/presentation/screens/auth_forget_
 import 'package:smartroombooking/features/auth/presentation/screens/auth_login_screen.dart';
 import 'package:smartroombooking/features/auth/presentation/screens/auth_sign_up_screen.dart';
 import 'package:smartroombooking/features/bottom_nav/presentation/screens/bottom_nav.dart';
+import 'package:smartroombooking/features/email_details/presentation/screens/email_details_screen.dart';
 import 'package:smartroombooking/features/fourth_year/presentation/screens/fourth_year_smart_room_booking_screen.dart';
 import 'package:smartroombooking/features/notification/presentation/screens/notification_screen.dart';
 import 'package:smartroombooking/features/on_boarding/presentation/screens/on_boarding_screen.dart';
@@ -26,6 +27,13 @@ final GoRouter appRouter = GoRouter(
       path: '/onBoardingScreen',
       name: "onBoardingScreen",
       builder: (context, state) => const OnBoardingScreen(),
+    ),
+
+    /// email details screen
+    GoRoute(
+      path: '/emailDetailsScreen',
+      name: "emailDetailsScreen",
+      builder: (context, state) => const EmailDetailsScreen(),
     ),
 
     /// auth login screen

@@ -3,15 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart' show GoRouter;
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
-import 'package:smartroombooking/commons/widgets/custom_drop_down_text_field.dart';
 import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_outlined_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_text_field.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/core/validator/app_validator.dart';
+import 'package:smartroombooking/features/auth/presentation/provider/apple_sign_in_provider.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/email_password_auth_provider.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/google_sign_in_provider.dart';
-import 'package:smartroombooking/features/auth/presentation/provider/user_role_provider.dart';
 
 class AuthSignUpScreen extends StatefulWidget {
   const AuthSignUpScreen({super.key});
@@ -27,13 +26,13 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
     String? selectedRole;
 
     /// providers
-    final userRoleProvider = Provider.of<UserRoleProvider>(context);
-
     final googleSignInProvider = Provider.of<GoogleSignInProvider>(context);
 
     final emailPasswordAuthProvider = Provider.of<EmailPasswordAuthProvider>(
       context,
     );
+
+    final appleSignInProvider = Provider.of<AppleSignInProvider>(context);
 
     /// controllers
     final TextEditingController userNameSignUpController =
@@ -185,34 +184,7 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
                     validator: AppValidator.validatePassword,
                   ),
 
-                  SizedBox(height: 10.h),
-
-                  /// User Type text
-                  Text(
-                    "User Type",
-                    style: TextStyle(
-                      fontFamily: "Redhat",
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.titleColor,
-                      fontSize: 13.sp,
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-
-                  /// User Type text field
-                  CustomDropdownTextField(
-                    validator: AppValidator.validateDropdown,
-                    hintText: "Select Role",
-                    prefixIcon: Icons.person_outline,
-                    items: ["Admin", "Staff", "Guest"],
-                    selectedValue: userRoleProvider.selectedRole,
-                    hasBorder: true,
-                    onChanged: (value) {
-                      userRoleProvider.setSelectedRole(value!);
-                    },
-                  ),
-
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 30.h),
 
                   /// Sign Up Button
                   CustomIconBtn(
@@ -232,10 +204,10 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
                               var box = Hive.box('userAuthStatusBox');
                               await box.put('userAuthStatus', true);
 
-                              /// bottom nav
+                              /// email details screen
                               GoRouter.of(
                                 context,
-                              ).pushReplacementNamed("bottomNav");
+                              ).pushReplacementNamed("emailDetailsScreen");
 
                               /// clear all controllers
                               clearAllControllers();
@@ -285,15 +257,43 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
                   /// Google Sign Up Button
                   CustomOutlinedBtn(
                     isLoading: googleSignInProvider.isLoading,
-                    onTap: () async {
+                    onTap: () {
                       /// sign in with google functionality
-                      await googleSignInProvider.signInWithGoogle(context);
+                      googleSignInProvider.signInWithGoogle(context).then((
+                        value,
+                      ) async {
+                        /// Save Auth Status in Hive
+                        var box = Hive.box('userAuthStatusBox');
+                        await box.put('userAuthStatus', true);
 
-                      /// bottom nav screen
-                      GoRouter.of(context).pushReplacementNamed("bottomNav");
+                        /// bottom nav screen
+                        GoRouter.of(context).pushReplacementNamed("bottomNav");
+                      });
                     },
                     btnTitle: "Sign Up with Google",
                     iconPath: "google",
+                  ),
+
+                  SizedBox(height: 12.h),
+
+                  /// apple sign up btn
+                  CustomOutlinedBtn(
+                    isLoading: appleSignInProvider.isLoading,
+                    onTap: () {
+                      /// sign in with google functionality
+                      appleSignInProvider.signInWithApple(context).then((
+                        value,
+                      ) async {
+                        /// Save Auth Status in Hive
+                        var box = Hive.box('userAuthStatusBox');
+                        await box.put('userAuthStatus', true);
+
+                        /// bottom nav screen
+                        GoRouter.of(context).pushReplacementNamed("bottomNav");
+                      });
+                    },
+                    btnTitle: "Sign Up with Apple",
+                    iconPath: "apple",
                   ),
 
                   SizedBox(height: 20.h),

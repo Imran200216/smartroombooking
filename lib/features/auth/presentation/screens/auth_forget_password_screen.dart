@@ -26,6 +26,10 @@ class AuthForgetPasswordScreen extends StatelessWidget {
     /// form key
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+    void clearControllers() {
+      emailForgetPasswordController.clear();
+    }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -110,6 +114,9 @@ class AuthForgetPasswordScreen extends StatelessWidget {
                             GoRouter.of(
                               context,
                             ).pushReplacementNamed("authLoginScreen");
+
+                            /// clear controllers
+                            clearControllers();
                           });
                     }
                   },

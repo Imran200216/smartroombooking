@@ -8,6 +8,7 @@ import 'package:smartroombooking/commons/widgets/custom_outlined_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_text_field.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/core/validator/app_validator.dart';
+import 'package:smartroombooking/features/auth/presentation/provider/apple_sign_in_provider.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/email_password_auth_provider.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/google_sign_in_provider.dart';
 
@@ -23,6 +24,8 @@ class AuthLoginScreen extends StatelessWidget {
       context,
     );
 
+    final appleSignInProvider = Provider.of<AppleSignInProvider>(context);
+
     /// controllers
     final TextEditingController emailLoginInController =
         TextEditingController();
@@ -32,8 +35,15 @@ class AuthLoginScreen extends StatelessWidget {
     /// form key
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+    /// clear controllers
+    void clearControllers() {
+      emailLoginInController.clear();
+      passwordLoginInController.clear();
+    }
+
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
           margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Form(
@@ -165,6 +175,9 @@ class AuthLoginScreen extends StatelessWidget {
                             GoRouter.of(
                               context,
                             ).pushReplacementNamed("bottomNav");
+
+                            /// clear controllers
+                            clearControllers();
                           });
                     }
                   },
@@ -210,13 +223,26 @@ class AuthLoginScreen extends StatelessWidget {
 
                 /// google auth btn
                 CustomOutlinedBtn(
-                  /// sign in with google functionality
                   isLoading: googleSignInProvider.isLoading,
                   onTap: () {
+                    /// sign in with google functionality
                     googleSignInProvider.signInWithGoogle(context);
                   },
                   btnTitle: "Sign in with Google",
                   iconPath: "google",
+                ),
+
+                SizedBox(height: 12.h),
+
+                /// apple auth btn
+                CustomOutlinedBtn(
+                  isLoading: appleSignInProvider.isLoading,
+                  onTap: () {
+                    /// sign in with apple functionality
+                    appleSignInProvider.signInWithApple(context);
+                  },
+                  btnTitle: "Sign in with Apple",
+                  iconPath: "apple",
                 ),
 
                 Spacer(),

@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smartroombooking/core/service/url_launcher_service.dart';
@@ -16,9 +18,10 @@ class ProfileScreen extends StatelessWidget {
     final String personPlaceHolder =
         "https://i.pinimg.com/736x/fb/8f/3e/fb8f3e83f9146e6b6a805a535f665dd7.jpg";
 
-    /// portfolio link
-    final String imranPortfolio = "https://linktr.ee/Imran_B";
-    final String saiKumarShettyPortfolio = "https://www.saikumarenishetty.site";
+    /// firebase current user
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    final currentUserName = currentUser?.displayName ?? "No Name";
+    final currentUserEmail = currentUser?.email ?? "No Email";
 
     return SafeArea(
       child: Scaffold(
@@ -35,8 +38,7 @@ class ProfileScreen extends StatelessWidget {
                 decoration: BoxDecoration(shape: BoxShape.circle),
                 child: ClipOval(
                   child: CachedNetworkImage(
-                    imageUrl:
-                        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                    imageUrl: currentUser?.photoURL ?? personPlaceHolder,
                     fit: BoxFit.cover,
                     placeholder:
                         (context, url) => Image.asset(
@@ -56,10 +58,10 @@ class ProfileScreen extends StatelessWidget {
 
               SizedBox(height: 30.h),
 
-              /// title text
+              /// user name
               Text(
                 textAlign: TextAlign.start,
-                "Imran B",
+                currentUserName,
                 style: TextStyle(
                   fontFamily: "Redhat",
                   fontWeight: FontWeight.w700,
@@ -70,10 +72,10 @@ class ProfileScreen extends StatelessWidget {
 
               SizedBox(height: 2.h),
 
-              /// sub title color
+              /// email address
               Text(
                 textAlign: TextAlign.center,
-                "imranbabuji162002@gmail.com",
+                currentUserEmail,
                 style: TextStyle(
                   fontFamily: "Redhat",
                   fontWeight: FontWeight.w600,
@@ -158,7 +160,7 @@ class ProfileScreen extends StatelessWidget {
                               ..onTap = () async {
                                 /// imran portfolio
                                 UrlLauncherService.launchUrlInBrowser(
-                                  imranPortfolio,
+                                  dotenv.env['IMRAN_PORTFOLIO']!,
                                 );
                               },
                       ),
@@ -181,7 +183,7 @@ class ProfileScreen extends StatelessWidget {
                               ..onTap = () async {
                                 /// sai portfolio
                                 UrlLauncherService.launchUrlInBrowser(
-                                  saiKumarShettyPortfolio,
+                                  dotenv.env['SAIKUMAR_SHETTY_PORTFOLIO']!,
                                 );
                               },
                       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:smartroombooking/commons/provider/date_picker_provider.dart';
 import 'package:smartroombooking/commons/widgets/custom_alert_dialog_box.dart';
 import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_room_booking_slot_chips.dart';
@@ -12,6 +14,9 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// providers
+    final datePickerProvider = Provider.of<DatePickerProvider>(context);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -59,14 +64,55 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               /// Room no
-                              Text(
-                                "Smart Room 201",
-                                style: TextStyle(
-                                  fontFamily: "Redhat",
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  /// Room no
+                                  Text(
+                                    "Smart Room 201",
+                                    style: TextStyle(
+                                      fontFamily: "Redhat",
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+
+                                  /// date picker
+                                  TextButton(
+                                    onPressed: () {
+                                      /// date picker functionality
+                                      datePickerProvider.pickDate(context);
+                                    },
+                                    child: Text(
+                                      "Pick Date",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.primaryColor,
+                                        fontSize: 12.sp,
+                                        fontFamily: "Redhat",
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
+
+                              SizedBox(height: 10.h),
+
+                              /// formatted date text
+                              datePickerProvider.formattedDate.isEmpty
+                                  ? SizedBox()
+                                  : Text(
+                                    datePickerProvider.formattedDate,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primaryColor,
+                                      fontSize: 12.sp,
+                                      fontFamily: "Redhat",
+                                    ),
+                                  ),
+
                               SizedBox(height: 10.h),
 
                               /// Booking slots
