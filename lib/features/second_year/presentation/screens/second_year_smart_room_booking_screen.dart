@@ -7,7 +7,9 @@ import 'package:smartroombooking/commons/widgets/custom_alert_dialog_box.dart';
 import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_room_booking_slot_chips.dart';
 import 'package:smartroombooking/commons/widgets/custom_smart_room_booking_card.dart';
+import 'package:smartroombooking/core/helper/toast_helper.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
+import 'package:smartroombooking/features/second_year/presentation/provider/second_year_smart_room_booking_provider.dart';
 
 class SecondYearSmartRoomBookingScreen extends StatelessWidget {
   const SecondYearSmartRoomBookingScreen({super.key});
@@ -16,6 +18,9 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     /// providers
     final datePickerProvider = Provider.of<DatePickerProvider>(context);
+
+    final secondYearSmartRoomBookingProvider =
+        Provider.of<SecondYearSmartRoomBookingProvider>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -55,90 +60,131 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
                         ),
                       ),
                       builder: (context) {
-                        return Container(
-                          width: double.infinity, // Ensure full width
-                          padding: const EdgeInsets.all(16.0),
-                          margin: EdgeInsets.symmetric(vertical: 14.h),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              /// Room no
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                        return Consumer<DatePickerProvider>(
+                          builder: (context, datePickerProvider, child) {
+                            return Container(
+                              width: double.infinity, // Ensure full width
+                              padding: const EdgeInsets.all(16.0),
+                              margin: EdgeInsets.symmetric(vertical: 14.h),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   /// Room no
-                                  Text(
-                                    "Smart Room 201",
-                                    style: TextStyle(
-                                      fontFamily: "Redhat",
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w700,
-                                    ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      /// Room no
+                                      Text(
+                                        "Smart Room 201",
+                                        style: TextStyle(
+                                          fontFamily: "Redhat",
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+
+                                      /// Date picker button
+                                      TextButton(
+                                        onPressed: () {
+                                          /// date picker functionality
+                                          datePickerProvider.pickDate(context);
+                                        },
+                                        child: Text(
+                                          "Pick Date",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.primaryColor,
+                                            fontSize: 12.sp,
+                                            fontFamily: "Redhat",
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
 
-                                  /// date picker
-                                  TextButton(
-                                    onPressed: () {
-                                      /// date picker functionality
-                                      datePickerProvider.pickDate(context);
-                                    },
-                                    child: Text(
-                                      "Pick Date",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.primaryColor,
-                                        fontSize: 12.sp,
-                                        fontFamily: "Redhat",
+                                  SizedBox(height: 10.h),
+
+                                  /// Display selected date in a Chip
+                                  datePickerProvider.selectedDate == null
+                                      ? SizedBox()
+                                      : Chip(
+                                        label: Text(
+                                          datePickerProvider.formattedDate,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.whiteColor,
+                                            fontSize: 12.sp,
+                                            fontFamily: "Redhat",
+                                          ),
+                                        ),
+                                        backgroundColor: AppColors.primaryColor,
+                                        deleteIcon: Icon(
+                                          Icons.close,
+                                          color: AppColors.whiteColor,
+                                          size: 16.sp,
+                                        ),
+                                        onDeleted: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return CustomAlertDialogBox(
+                                                title: "Delete Date",
+                                                content:
+                                                    "Are you sure you want to delete the picked date?",
+                                                onConfirm: () {
+                                                  /// Remove selected date
+                                                  datePickerProvider
+                                                      .clearDate();
+
+                                                  /// deleted date toast success
+                                                  ToastHelper.showSuccessToast(
+                                                    context: context,
+                                                    message:
+                                                        "Date deleted successfully",
+                                                  );
+
+                                                  /// pop
+                                                  GoRouter.of(context).pop();
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
                                       ),
-                                    ),
+
+                                  SizedBox(height: 10.h),
+
+                                  /// Booking slots
+                                  CustomRoomBookingSlotChips(),
+
+                                  SizedBox(height: 20.h),
+
+                                  /// Book room slot
+                                  CustomIconBtn(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return CustomAlertDialogBox(
+                                            title: "Booking of Smart Rooms",
+                                            content:
+                                                "Confirmation of smart rooms",
+                                            onConfirm: () {},
+                                          );
+                                        },
+                                      );
+                                    },
+                                    btnTitle: "Book Smart Room",
+                                    iconPath: "login",
                                   ),
                                 ],
                               ),
-
-                              SizedBox(height: 10.h),
-
-                              /// formatted date text
-                              datePickerProvider.formattedDate.isEmpty
-                                  ? SizedBox()
-                                  : Text(
-                                    datePickerProvider.formattedDate,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primaryColor,
-                                      fontSize: 12.sp,
-                                      fontFamily: "Redhat",
-                                    ),
-                                  ),
-
-                              SizedBox(height: 10.h),
-
-                              /// Booking slots
-                              CustomRoomBookingSlotChips(),
-
-                              SizedBox(height: 20.h),
-
-                              /// book room slot
-                              CustomIconBtn(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return CustomAlertDialogBox(
-                                        title: "Booking of Smart Rooms",
-                                        content: "Confirmation of smart rooms",
-                                        onConfirm: () {},
-                                      );
-                                    },
-                                  );
-                                },
-                                btnTitle: "Book Smart Room",
-                                iconPath: "login",
-                              ),
-                            ],
-                          ),
+                            );
+                          },
                         );
                       },
                     );

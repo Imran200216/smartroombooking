@@ -166,18 +166,21 @@ class AuthLoginScreen extends StatelessWidget {
                             passwordLoginInController.text.trim(),
                             context,
                           )
-                          .then((value) async {
+                          .then((_) async {
+                            /// No need to check `if (value)` since it returns void
                             /// Save Auth Status in Hive
                             var box = Hive.box('userAuthStatusBox');
                             await box.put('userAuthStatus', true);
 
-                            /// bottom nav
+                            /// Navigate to Bottom Navigation
                             GoRouter.of(
                               context,
                             ).pushReplacementNamed("bottomNav");
 
-                            /// clear controllers
-                            clearControllers();
+                            /// Clear controllers after everything is done
+                            Future.delayed(Duration(milliseconds: 500), () {
+                              clearControllers();
+                            });
                           });
                     }
                   },

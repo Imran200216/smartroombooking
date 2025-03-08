@@ -1,11 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:smartroombooking/core/helper/toast_helper.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  /// web client ids
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId:
+        dotenv.env['ENV'] == "prod"
+            ? dotenv.env['PROD_WEB_CLIENT_ID']
+            : dotenv.env['DEV_WEB_CLIENT_ID'],
+  );
+
   GoogleSignInAccount? _user;
   bool _isLoading = false;
 

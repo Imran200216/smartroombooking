@@ -1,13 +1,13 @@
 plugins {
     id("com.android.application")
-    id("com.google.gms.google-services") // Firebase
+    id("com.google.gms.google-services")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
     namespace = "com.smartroombooking.biher"
-    compileSdk = 34
+    compileSdk = 35
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -27,6 +27,28 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+    }
+
+    /// 🔹 FLAVOR CONFIGURATION (FIXED)
+    flavorDimensions.add("env")
+
+    productFlavors {
+        create("dev") {
+            dimension = "env"
+            versionNameSuffix = "-dev"
+        }
+        create("prod") {
+            dimension = "env"
+        }
+    }
+
+    sourceSets {
+        getByName("dev") {
+            res.srcDirs("src/dev/res")
+        }
+        getByName("prod") {
+            res.srcDirs("src/prod/res")
+        }
     }
 
     buildTypes {

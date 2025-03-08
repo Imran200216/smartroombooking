@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/features/on_boarding/presentation/provider/on_boarding_provider.dart';
@@ -72,9 +73,13 @@ class OnBoardingScreen extends StatelessWidget {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (provider.currentPage ==
                                   provider.onBoardingData.length - 1) {
+                                /// Save get started  Status in Hive
+                                var box = Hive.box('userGetStartedStatusBox');
+                                await box.put('userGetStartedStatus', true);
+
                                 /// user type screen
                                 GoRouter.of(
                                   context,

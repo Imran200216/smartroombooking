@@ -10,11 +10,11 @@ class DatePickerProvider extends ChangeNotifier {
   Future<void> pickDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: _selectedDate ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
       selectableDayPredicate: (DateTime date) {
-        // Disables selection of Saturdays and Sundays
+        // Disable Saturdays and Sundays
         return date.weekday != DateTime.saturday &&
             date.weekday != DateTime.sunday;
       },
@@ -37,15 +37,20 @@ class DatePickerProvider extends ChangeNotifier {
       },
     );
 
-    if (pickedDate != null) {
+    if (pickedDate != null && pickedDate != _selectedDate) {
       _selectedDate = pickedDate;
-      notifyListeners();
+      notifyListeners(); // 🔹 Updates UI immediately
     }
   }
 
   String get formattedDate {
     return _selectedDate != null
         ? DateFormat('dd MMM, yyyy').format(_selectedDate!)
-        : "Pick Date";
+        : "";
+  }
+
+  void clearDate() {
+    _selectedDate = null;
+    notifyListeners();
   }
 }
