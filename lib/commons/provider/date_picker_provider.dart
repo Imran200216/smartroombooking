@@ -8,9 +8,19 @@ class DatePickerProvider extends ChangeNotifier {
   DateTime? get selectedDate => _selectedDate;
 
   Future<void> pickDate(BuildContext context) async {
+    DateTime now = DateTime.now();
+
+    // Ensure the initial date is a valid selectable date (not Sat/Sun)
+    DateTime initialDate = _selectedDate ?? now;
+    while (initialDate.weekday == DateTime.saturday ||
+        initialDate.weekday == DateTime.sunday) {
+      initialDate = initialDate.add(const Duration(days: 1));
+    }
+
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
+      initialDate: initialDate,
+      // ✅ Always a selectable day
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
       selectableDayPredicate: (DateTime date) {

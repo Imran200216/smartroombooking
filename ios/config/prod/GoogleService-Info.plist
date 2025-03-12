@@ -3,23 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>242612700344-iugu9asq9u4n02ho9has2g0k5f9uif1g.apps.googleusercontent.com</string>
+	<string>657942090927-lijtdsikh85p4111je3gebkh053fp42q.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.242612700344-iugu9asq9u4n02ho9has2g0k5f9uif1g</string>
+	<string>com.googleusercontent.apps.657942090927-lijtdsikh85p4111je3gebkh053fp42q</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>242612700344-pcjcdqu24aqfduv7enjf24os2l9981ei.apps.googleusercontent.com</string>
+	<string>657942090927-tesqkqe8csirhl7s40ofpb1g9l55p6fc.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCcFQyX1Ow0uw4b8QXk5UUCOlRT2MpT63M</string>
+	<string>AIzaSyCktayhvUUwyxhS4xT4T6mdI1D-1cwB17E</string>
 	<key>GCM_SENDER_ID</key>
-	<string>242612700344</string>
+	<string>657942090927</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.smartroombooking.biher</string>
 	<key>PROJECT_ID</key>
-	<string>smartroombookingbiher</string>
+	<string>smartroombookingbiher-a09e4</string>
 	<key>STORAGE_BUCKET</key>
-	<string>smartroombookingbiher.firebasestorage.app</string>
+	<string>smartroombookingbiher-a09e4.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:242612700344:ios:a9c74a0e1e1a53e01fe04d</string>
+	<string>1:657942090927:ios:fb7fce0a7849155d72305a</string>
 </dict>
 </plist>

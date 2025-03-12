@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:smartroombooking/commons/provider/date_picker_provider.dart';
+import 'package:smartroombooking/commons/provider/muti_selection_chip_provider.dart';
 import 'package:smartroombooking/commons/widgets/custom_alert_dialog_box.dart';
 import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_room_booking_slot_chips.dart';
@@ -17,10 +19,18 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// providers
-    final datePickerProvider = Provider.of<DatePickerProvider>(context);
-
     final secondYearSmartRoomBookingProvider =
         Provider.of<SecondYearSmartRoomBookingProvider>(context);
+
+    // final datePickerProvider = Provider.of<DatePickerProvider>(context);
+
+    final multiSelectionChipProvider = Provider.of<MultiSelectionChipProvider>(
+      context,
+    );
+
+    /// firebase current user
+    final User? currentUser = FirebaseAuth.instance.currentUser;
+    final currentUserName = currentUser?.displayName ?? "No Name";
 
     return SafeArea(
       child: Scaffold(
@@ -147,7 +157,7 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
                                                         "Date deleted successfully",
                                                   );
 
-                                                  /// pop
+                                                  /// Close the alert dialog first
                                                   GoRouter.of(context).pop();
                                                 },
                                               );
@@ -165,6 +175,9 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
 
                                   /// Book room slot
                                   CustomIconBtn(
+                                    isLoading:
+                                        secondYearSmartRoomBookingProvider
+                                            .isLoading,
                                     onTap: () {
                                       showDialog(
                                         context: context,
@@ -173,7 +186,61 @@ class SecondYearSmartRoomBookingScreen extends StatelessWidget {
                                             title: "Booking of Smart Rooms",
                                             content:
                                                 "Confirmation of smart rooms",
-                                            onConfirm: () {},
+                                            onConfirm: () {
+                                              if (datePickerProvider
+                                                      .selectedDate ==
+                                                  null) {
+                                                ToastHelper.showErrorToast(
+                                                  context: context,
+                                                  message:
+                                                      "Please select a date first!",
+                                                );
+                                                return;
+                                              }
+
+                                              /// Get selected booking time slots
+                                              List<String> selectedTimeSlots =
+                                                  multiSelectionChipProvider
+                                                      .selectedSlots
+                                                      .toList();
+
+                                              /// Ensure at least one time slot is selected
+                                              if (selectedTimeSlots.isEmpty) {
+                                                ToastHelper.showErrorToast(
+                                                  context: context,
+                                                  message:
+                                                      "Please select at least one time slot!",
+                                                );
+                                                return;
+                                              }
+
+                                              /// Smart room booking functionality
+                                              secondYearSmartRoomBookingProvider
+                                                  .addBooking(
+                                                    userName: currentUserName,
+                                                    roomNumber:
+                                                        "Smart Room 201",
+                                                    bookingDate:
+                                                        datePickerProvider
+                                                            .selectedDate!,
+                                                    bookingTimePeriods:
+                                                        selectedTimeSlots,
+
+                                                    context: context,
+                                                  );
+
+                                              /// Reset selected date & time slots after booking success
+                                              datePickerProvider.clearDate();
+                                              multiSelectionChipProvider
+                                                  .selectedSlots
+                                                  .clear();
+
+                                              /// Close dialog
+                                              GoRouter.of(context).pop();
+
+                                              /// Close the bottom sheet after successful booking
+                                              GoRouter.of(context).pop();
+                                            },
                                           );
                                         },
                                       );

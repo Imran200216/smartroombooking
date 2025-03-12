@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "344342511386",
-    "project_id": "smartroombookingdev",
-    "storage_bucket": "smartroombookingdev.firebasestorage.app"
+    "project_number": "726307783558",
+    "project_id": "smartroombookingdev-11fe7",
+    "storage_bucket": "smartroombookingdev-11fe7.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:344342511386:android:9f0b9bd998b6d1bacc76a3",
+        "mobilesdk_app_id": "1:726307783558:android:db20fed8827171ae69e207",
         "android_client_info": {
-          "package_name": "com.smartroombooking.biher"
+          "package_name": "com.smartroombooking.biher.dev"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "344342511386-4a7sel6nd08816t0p10ob4bl3j8l948l.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.smartroombooking.biher",
-            "certificate_hash": "08b51aa798d6b92efb2072bc4c3c7875e5c7e7a6"
-          }
-        },
-        {
-          "client_id": "344342511386-fljhv8jk02rcu8asd1fp8ajacje06vo2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAXZzU-ijlQOXgXcgZNk5gkN6lSe-N-iU8"
+          "current_key": "AIzaSyDzZuh7pdZEUzRSsQQkS6APiI2XauwMGHw"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "344342511386-fljhv8jk02rcu8asd1fp8ajacje06vo2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "344342511386-70psdsetjh5br4g71a02ih28vcdthbpo.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.smartroombooking.smartroombooking"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

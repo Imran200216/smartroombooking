@@ -60,7 +60,7 @@ dependencies:
   # cloud firestore 
   cloud_firestore: ^5.6.5
   # google sign in
-  google_sign_in: ^6.2.2
+  google_sign_in: ^6.3.0
   # local notification
   flutter_local_notifications: ^18.0.1
   # time zone 
@@ -75,6 +75,8 @@ dependencies:
   dotted_border: ^2.1.0
   # intl
   intl: ^0.20.2
+  # skeletonizer:
+  skeletonizer: ^1.4.3
 
 dev_dependencies:
   flutter_test:

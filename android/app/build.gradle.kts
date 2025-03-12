@@ -29,31 +29,35 @@ android {
         versionName = flutter.versionName
     }
 
-    /// 🔹 FLAVOR CONFIGURATION (FIXED)
-    flavorDimensions.add("env")
 
-    productFlavors {
-        create("dev") {
-            dimension = "env"
-            versionNameSuffix = "-dev"
-        }
-        create("prod") {
-            dimension = "env"
-        }
-    }
-
-    sourceSets {
-        getByName("dev") {
-            res.srcDirs("src/dev/res")
-        }
-        getByName("prod") {
-            res.srcDirs("src/prod/res")
-        }
-    }
 
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("debug")
+        }
+    }
+
+    /// flutter flavors
+    flavorDimensions += "default"
+    productFlavors {
+        create("dev") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "SmartRoomBookingDev"
+            )
+            applicationIdSuffix = ".dev"
+        }
+        create("prod") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "SmartRoomBooking"
+            )
+            applicationIdSuffix = ""
+
         }
     }
 }

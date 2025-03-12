@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart' show GoRouter;
@@ -207,7 +208,7 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
                               /// email details screen
                               GoRouter.of(
                                 context,
-                              ).pushReplacementNamed("emailDetailsScreen");
+                              ).pushReplacementNamed("bottomNav");
 
                               /// clear all controllers
                               clearAllControllers();
@@ -257,18 +258,25 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
                   /// Google Sign Up Button
                   CustomOutlinedBtn(
                     isLoading: googleSignInProvider.isLoading,
-                    onTap: () {
-                      /// sign in with google functionality
-                      googleSignInProvider.signInWithGoogle(context).then((
-                        value,
-                      ) async {
-                        /// Save Auth Status in Hive
-                        var box = Hive.box('userAuthStatusBox');
-                        await box.put('userAuthStatus', true);
+                    onTap: () async {
+                      try {
+                        /// Attempt Google Sign-In
+                        await googleSignInProvider.signInWithGoogle(context);
 
-                        /// bottom nav screen
-                        GoRouter.of(context).pushReplacementNamed("bottomNav");
-                      });
+                        /// Check if user is authenticated
+                        if (FirebaseAuth.instance.currentUser != null) {
+                          /// Save Auth Status in Hive
+                          var box = Hive.box('userAuthStatusBox');
+                          await box.put('userAuthStatus', true);
+
+                          /// Navigate to bottom nav screen
+                          GoRouter.of(
+                            context,
+                          ).pushReplacementNamed("bottomNav");
+                        }
+                      } catch (e) {
+                        print("Google Sign-In Failed: $e");
+                      }
                     },
                     btnTitle: "Sign Up with Google",
                     iconPath: "google",

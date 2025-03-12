@@ -55,7 +55,7 @@ class GoogleSignInProvider extends ChangeNotifier {
           message: "Google Sign In Successful!",
         );
 
-        // Store the user data in Firestore
+        // Store the user data in Fire store
         await FirebaseFirestore.instance.collection("users").doc().set({
           "userEmail": googleUser.email,
           // Store email from Google SignIn

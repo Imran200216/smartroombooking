@@ -1,48 +1,48 @@
 {
   "project_info": {
-    "project_number": "242612700344",
-    "project_id": "smartroombookingbiher",
-    "storage_bucket": "smartroombookingbiher.firebasestorage.app"
+    "project_number": "657942090927",
+    "project_id": "smartroombookingbiher-a09e4",
+    "storage_bucket": "smartroombookingbiher-a09e4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:242612700344:android:4e39a44ae3bd2dc01fe04d",
+        "mobilesdk_app_id": "1:657942090927:android:cc21d1cfdb65688272305a",
         "android_client_info": {
           "package_name": "com.smartroombooking.biher"
         }
       },
       "oauth_client": [
         {
-          "client_id": "242612700344-pcjcdqu24aqfduv7enjf24os2l9981ei.apps.googleusercontent.com",
+          "client_id": "657942090927-tesqkqe8csirhl7s40ofpb1g9l55p6fc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.smartroombooking.biher",
-            "certificate_hash": "7517bf2a9f72ee60f0838235603226b9dc85edb1"
+            "certificate_hash": "b30125c8010ad49b08059b2007fe3ccc878871ef"
           }
         },
         {
-          "client_id": "242612700344-e5sn1r9lnt37p0v8plc195rhaaunedk7.apps.googleusercontent.com",
+          "client_id": "657942090927-35moe2qno0n36bnlg6jbp9j0ee8400rs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDd9SEIlUa40jIhvLM-JtOOkfezfvpWB6g"
+          "current_key": "AIzaSyALHRajp-6z8epeN7_tQ6YWjk8expJla4M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "242612700344-e5sn1r9lnt37p0v8plc195rhaaunedk7.apps.googleusercontent.com",
+              "client_id": "657942090927-35moe2qno0n36bnlg6jbp9j0ee8400rs.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "242612700344-1jv1ukd1chtt6aritp5064ias5ffkji2.apps.googleusercontent.com",
+              "client_id": "657942090927-lijtdsikh85p4111je3gebkh053fp42q.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.smartroombooking"
+                "bundle_id": "com.smartroombooking.biher"
               }
             }
           ]
