@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:smartroombooking/commons/provider/internet_checker_provider.dart';
 import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_outlined_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_text_field.dart';
+import 'package:smartroombooking/core/helper/snackbar_helper.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/core/validator/app_validator.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/apple_sign_in_provider.dart';
@@ -21,6 +23,10 @@ class AuthLoginScreen extends StatelessWidget {
     final googleSignInProvider = Provider.of<GoogleSignInProvider>(context);
 
     final emailPasswordAuthProvider = Provider.of<EmailPasswordAuthProvider>(
+      context,
+    );
+
+    final internetCheckerProvider = Provider.of<InternetCheckerProvider>(
       context,
     );
 
@@ -158,6 +164,17 @@ class AuthLoginScreen extends StatelessWidget {
                 CustomIconBtn(
                   isLoading: emailPasswordAuthProvider.isLoading,
                   onTap: () {
+                    /// Show SnackBar and STOP execution if no internet connection
+                    if (!internetCheckerProvider.isNetworkConnected) {
+                      SnackBarHelper.showFailureSnackBar(
+                        context: context,
+                        message:
+                            "No internet connection. Please check your network.",
+                      );
+
+                      return;
+                    }
+
                     if (formKey.currentState!.validate()) {
                       /// email login functionality
                       emailPasswordAuthProvider
@@ -228,6 +245,17 @@ class AuthLoginScreen extends StatelessWidget {
                 CustomOutlinedBtn(
                   isLoading: googleSignInProvider.isLoading,
                   onTap: () {
+                    /// Show SnackBar and STOP execution if no internet connection
+                    if (!internetCheckerProvider.isNetworkConnected) {
+                      SnackBarHelper.showFailureSnackBar(
+                        context: context,
+                        message:
+                            "No internet connection. Please check your network.",
+                      );
+
+                      return;
+                    }
+
                     /// sign in with google functionality
                     googleSignInProvider.signInWithGoogle(context);
                   },
@@ -241,6 +269,17 @@ class AuthLoginScreen extends StatelessWidget {
                 CustomOutlinedBtn(
                   isLoading: appleSignInProvider.isLoading,
                   onTap: () {
+                    /// Show SnackBar and STOP execution if no internet connection
+                    if (!internetCheckerProvider.isNetworkConnected) {
+                      SnackBarHelper.showFailureSnackBar(
+                        context: context,
+                        message:
+                            "No internet connection. Please check your network.",
+                      );
+
+                      return;
+                    }
+
                     /// sign in with apple functionality
                     appleSignInProvider.signInWithApple(context);
                   },

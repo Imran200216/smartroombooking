@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:smartroombooking/commons/provider/internet_checker_provider.dart';
 import 'package:smartroombooking/commons/provider/my_smart_room_bookings_provider.dart';
+import 'package:smartroombooking/commons/widgets/custom_not_found_content.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/features/my_bookings/presentation/widgets/custom_my_smart_room_booking_card.dart';
 
@@ -47,10 +50,28 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
               ),
               SizedBox(height: 20.h),
               Expanded(
-                child: Consumer<MySmartRoomBookingsProvider>(
-                  builder: (context, provider, child) {
-                    if (provider.isLoading) {
-                      /// shimmer effect
+                child: Consumer2<
+                  MySmartRoomBookingsProvider,
+                  InternetCheckerProvider
+                >(
+                  builder: (
+                    context,
+                    mySmartRoomBookingsProvider,
+                    internetCheckerProvider,
+                    child,
+                  ) {
+                    /// no internet connection
+                    if (!internetCheckerProvider.isNetworkConnected) {
+                      return CustomNotFoundContent(
+                        imagePath: "assets/icons/no-internet-connection.svg",
+                        imageHeight: 160.h,
+                        imageWidth: 160.w,
+                        notFoundContentDescription: "No Internet Connection.",
+                      );
+                    }
+
+                    /// shimmer effect
+                    if (mySmartRoomBookingsProvider.isLoading) {
                       return Skeletonizer(
                         enabled: true,
                         child: ListView.separated(
@@ -68,40 +89,39 @@ class _MyBookingScreenState extends State<MyBookingScreen> {
                       );
                     }
 
-                    if (provider.bookings.isEmpty) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/img/svg/no-bookings-found.svg",
-                              height: 240.h,
-                              width: 240.w,
-                              fit: BoxFit.cover,
-                            ),
-                            SizedBox(height: 10.h),
-                            Text(
-                              "No bookings found.",
-                              style: TextStyle(
-                                fontFamily: "Redhat",
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.greyDarkerColor,
-                              ),
-                            ),
-                          ],
-                        ),
+                    /// my smart room is empty
+                    if (mySmartRoomBookingsProvider.bookings.isEmpty) {
+                      return CustomNotFoundContent(
+                        imagePath: "assets/img/svg/no-bookings-found.svg",
+                        notFoundContentDescription: "No bookings found.",
                       );
                     }
 
+                    /// my booking list view
                     return ListView.separated(
-                      itemCount: provider.bookings.length,
+                      itemCount: mySmartRoomBookingsProvider.bookings.length,
                       separatorBuilder:
                           (context, index) => SizedBox(height: 12.h),
                       itemBuilder: (context, index) {
-                        var booking = provider.bookings[index];
+                        var booking =
+                            mySmartRoomBookingsProvider.bookings[index];
                         return CustomMySmartRoomBookingCard(
+                          onTap: () {
+                            /// MySmartRoomBookingsDescriptionScreen
+                            GoRouter.of(context).pushNamed(
+                              "mySmartRoomBookingsDescriptionScreen",
+                              pathParameters: {
+                                "userName": booking['userName'],
+                                "bookingDate":
+                                    (booking['bookingDate'] as Timestamp)
+                                        .toDate()
+                                        .toIso8601String(),
+                                "roomNumber": booking['roomNumber'],
+                                "bookingPeriods": booking['bookingTimePeriods']
+                                    .join(','),
+                              },
+                            );
+                          },
                           personName: booking['userName'],
                           roomNo: booking['roomNumber'],
                         );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:smartroombooking/commons/provider/date_picker_provider.dart';
+import 'package:smartroombooking/commons/provider/internet_checker_provider.dart';
 import 'package:smartroombooking/commons/provider/muti_selection_chip_provider.dart';
 import 'package:smartroombooking/commons/provider/my_smart_room_bookings_provider.dart';
 import 'package:smartroombooking/core/router/app_router.dart';
@@ -80,6 +81,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => MySmartRoomBookingsProvider(),
         ),
+
+        /// internet checker provider
+        ChangeNotifierProvider(create: (context) => InternetCheckerProvider()),
       ],
       builder: (context, child) {
         return ScreenUtilInit(

@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart' show GoRouter;
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:smartroombooking/commons/provider/internet_checker_provider.dart';
 import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_outlined_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_text_field.dart';
+import 'package:smartroombooking/core/helper/snackbar_helper.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/core/validator/app_validator.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/apple_sign_in_provider.dart';
@@ -23,9 +25,6 @@ class AuthSignUpScreen extends StatefulWidget {
 class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
   @override
   Widget build(BuildContext context) {
-    /// user role type
-    String? selectedRole;
-
     /// providers
     final googleSignInProvider = Provider.of<GoogleSignInProvider>(context);
 
@@ -34,6 +33,10 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
     );
 
     final appleSignInProvider = Provider.of<AppleSignInProvider>(context);
+
+    final internetCheckerProvider = Provider.of<InternetCheckerProvider>(
+      context,
+    );
 
     /// controllers
     final TextEditingController userNameSignUpController =
@@ -191,6 +194,17 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
                   CustomIconBtn(
                     isLoading: emailPasswordAuthProvider.isLoading,
                     onTap: () {
+                      /// Show SnackBar if no internet connection
+                      if (!internetCheckerProvider.isNetworkConnected) {
+                        SnackBarHelper.showFailureSnackBar(
+                          context: context,
+                          message:
+                              "No internet connection. Please check your network.",
+                        );
+
+                        return;
+                      }
+
                       if (formKey.currentState!.validate()) {
                         /// email sign up functionality
                         emailPasswordAuthProvider
@@ -259,6 +273,17 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
                   CustomOutlinedBtn(
                     isLoading: googleSignInProvider.isLoading,
                     onTap: () async {
+                      /// Show SnackBar and STOP execution if no internet connection
+                      if (!internetCheckerProvider.isNetworkConnected) {
+                        SnackBarHelper.showFailureSnackBar(
+                          context: context,
+                          message:
+                              "No internet connection. Please check your network.",
+                        );
+
+                        return;
+                      }
+
                       try {
                         /// Attempt Google Sign-In
                         await googleSignInProvider.signInWithGoogle(context);
@@ -288,6 +313,17 @@ class _AuthSignUpScreenState extends State<AuthSignUpScreen> {
                   CustomOutlinedBtn(
                     isLoading: appleSignInProvider.isLoading,
                     onTap: () {
+                      /// Show SnackBar if no internet connection
+                      if (!internetCheckerProvider.isNetworkConnected) {
+                        SnackBarHelper.showFailureSnackBar(
+                          context: context,
+                          message:
+                              "No internet connection. Please check your network!",
+                        );
+
+                        return;
+                      }
+
                       /// sign in with google functionality
                       appleSignInProvider.signInWithApple(context).then((
                         value,

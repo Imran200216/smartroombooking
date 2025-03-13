@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:smartroombooking/commons/provider/internet_checker_provider.dart';
 import 'package:smartroombooking/commons/widgets/custom_icon_btn.dart';
 import 'package:smartroombooking/commons/widgets/custom_text_field.dart';
+import 'package:smartroombooking/core/helper/snackbar_helper.dart';
 import 'package:smartroombooking/core/themes/colors/app_colors.dart';
 import 'package:smartroombooking/core/validator/app_validator.dart';
 import 'package:smartroombooking/features/auth/presentation/provider/email_password_auth_provider.dart';
@@ -16,6 +18,10 @@ class AuthForgetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     /// providers
     final emailPasswordAuthProvider = Provider.of<EmailPasswordAuthProvider>(
+      context,
+    );
+
+    final internetCheckerProvider = Provider.of<InternetCheckerProvider>(
       context,
     );
 
@@ -102,6 +108,17 @@ class AuthForgetPasswordScreen extends StatelessWidget {
                 CustomIconBtn(
                   isLoading: emailPasswordAuthProvider.isLoading,
                   onTap: () {
+                    /// Show SnackBar and STOP execution if no internet connection
+                    if (!internetCheckerProvider.isNetworkConnected) {
+                      SnackBarHelper.showFailureSnackBar(
+                        context: context,
+                        message:
+                            "No internet connection. Please check your network.",
+                      );
+
+                      return;
+                    }
+
                     if (formKey.currentState!.validate()) {
                       /// reset password functionality
                       emailPasswordAuthProvider

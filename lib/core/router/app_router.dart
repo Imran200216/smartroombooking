@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smartroombooking/features/auth/presentation/screens/auth_forget_password_screen.dart';
 import 'package:smartroombooking/features/auth/presentation/screens/auth_login_screen.dart';
@@ -5,6 +6,7 @@ import 'package:smartroombooking/features/auth/presentation/screens/auth_sign_up
 import 'package:smartroombooking/features/bottom_nav/presentation/screens/bottom_nav.dart';
 import 'package:smartroombooking/features/email_details/presentation/screens/email_details_screen.dart';
 import 'package:smartroombooking/features/fourth_year/presentation/screens/fourth_year_smart_room_booking_screen.dart';
+import 'package:smartroombooking/features/my_smart_room_bookings/presentation/screens/my_smart_room_bookings_description_screen.dart';
 import 'package:smartroombooking/features/notification/presentation/screens/notification_screen.dart';
 import 'package:smartroombooking/features/on_boarding/presentation/screens/on_boarding_screen.dart';
 import 'package:smartroombooking/features/second_year/presentation/screens/second_year_smart_room_booking_screen.dart';
@@ -97,6 +99,25 @@ final GoRouter appRouter = GoRouter(
       path: '/fourthYearSmartRoomBookingScreen',
       name: "fourthYearSmartRoomBookingScreen",
       builder: (context, state) => const FourthYearSmartRoomBookingScreen(),
+    ),
+
+    /// MySmartRoomBookingsDescriptionScreen
+    GoRoute(
+      path:
+          '/mySmartRoomBookingsDescriptionScreen/:userName/:bookingDate/:roomNumber/:bookingPeriods',
+      name: "mySmartRoomBookingsDescriptionScreen",
+
+      builder:
+          (context, state) => MySmartRoomBookingsDescriptionScreen(
+            userName: state.pathParameters["userName"] ?? "",
+            bookingDate:
+                (state.pathParameters['bookingDate'] as Timestamp)
+                    .toDate()
+                    .toIso8601String(),
+            roomNumber: state.pathParameters["roomNumber"] ?? "",
+            bookingTimePeriods:
+                state.pathParameters["bookingPeriods"]?.split(',') ?? [],
+          ),
     ),
   ],
 );

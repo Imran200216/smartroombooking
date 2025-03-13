@@ -33,29 +33,59 @@ class SecondYearSmartRoomBookingProvider extends ChangeNotifier {
         return;
       }
 
-      /// Get the start (Monday) and end (Sunday) of the current week
+      /// Get the start and end of the current and next week
       DateTime now = DateTime.now();
-      DateTime startOfWeek = now.subtract(
+      DateTime startOfCurrentWeek = now.subtract(
         Duration(days: now.weekday - 1),
-      ); // Monday
-      DateTime endOfWeek = startOfWeek.add(const Duration(days: 6)); // Sunday
+      ); // Monday of current week
+      DateTime endOfCurrentWeek = startOfCurrentWeek.add(
+        const Duration(days: 6),
+      ); // Sunday of current week
 
-      /// Convert start and end of the week to UTC timestamps for Firestore query
-      Timestamp startTimestamp = Timestamp.fromDate(
+      DateTime startOfNextWeek = endOfCurrentWeek.add(
+        const Duration(days: 1),
+      ); // Monday of next week
+      DateTime endOfNextWeek = startOfNextWeek.add(
+        const Duration(days: 6),
+      ); // Sunday of next week
+
+      /// Convert start and end of weeks to UTC timestamps for Firestore query
+      Timestamp startOfCurrentWeekTimestamp = Timestamp.fromDate(
         DateTime.utc(
-          startOfWeek.year,
-          startOfWeek.month,
-          startOfWeek.day,
+          startOfCurrentWeek.year,
+          startOfCurrentWeek.month,
+          startOfCurrentWeek.day,
           0,
           0,
           0,
         ),
       );
-      Timestamp endTimestamp = Timestamp.fromDate(
+      Timestamp endOfCurrentWeekTimestamp = Timestamp.fromDate(
         DateTime.utc(
-          endOfWeek.year,
-          endOfWeek.month,
-          endOfWeek.day,
+          endOfCurrentWeek.year,
+          endOfCurrentWeek.month,
+          endOfCurrentWeek.day,
+          23,
+          59,
+          59,
+        ),
+      );
+
+      Timestamp startOfNextWeekTimestamp = Timestamp.fromDate(
+        DateTime.utc(
+          startOfNextWeek.year,
+          startOfNextWeek.month,
+          startOfNextWeek.day,
+          0,
+          0,
+          0,
+        ),
+      );
+      Timestamp endOfNextWeekTimestamp = Timestamp.fromDate(
+        DateTime.utc(
+          endOfNextWeek.year,
+          endOfNextWeek.month,
+          endOfNextWeek.day,
           23,
           59,
           59,
@@ -65,18 +95,48 @@ class SecondYearSmartRoomBookingProvider extends ChangeNotifier {
       /// Ensure `bookingDate` is always stored as a `Timestamp`
       Timestamp bookingTimestamp = Timestamp.fromDate(bookingDate);
 
-      /// Query Firestore for the user's bookings within this week
+      /// Determine which week the booking falls into
+      bool isCurrentWeek =
+          bookingDate.isAfter(startOfCurrentWeek) &&
+          bookingDate.isBefore(endOfCurrentWeek.add(const Duration(days: 1)));
+      bool isNextWeek =
+          bookingDate.isAfter(startOfNextWeek) &&
+          bookingDate.isBefore(endOfNextWeek.add(const Duration(days: 1)));
+
+      if (!isCurrentWeek && !isNextWeek) {
+        _isLoading = false;
+        notifyListeners();
+        ToastHelper.showErrorToast(
+          context: context,
+          message: "You can only book for the current or next week!",
+        );
+        return;
+      }
+
+      /// Query Firestore for the user's bookings in the appropriate week
       QuerySnapshot userBookings =
           await _firestore
               .collection("SecondYear")
               .where("userUid", isEqualTo: userUid)
-              .where("bookingDate", isGreaterThanOrEqualTo: startTimestamp)
-              .where("bookingDate", isLessThanOrEqualTo: endTimestamp)
+              .where(
+                "bookingDate",
+                isGreaterThanOrEqualTo:
+                    isCurrentWeek
+                        ? startOfCurrentWeekTimestamp
+                        : startOfNextWeekTimestamp,
+              )
+              .where(
+                "bookingDate",
+                isLessThanOrEqualTo:
+                    isCurrentWeek
+                        ? endOfCurrentWeekTimestamp
+                        : endOfNextWeekTimestamp,
+              )
               .get();
 
       /// Print the number of bookings for debugging
       print(
-        "User $userName has ${userBookings.docs.length} bookings this week.",
+        "User $userName has ${userBookings.docs.length} bookings in the selected week.",
       );
 
       /// If user already has 3 or more bookings, show an error and stop
@@ -85,12 +145,12 @@ class SecondYearSmartRoomBookingProvider extends ChangeNotifier {
         notifyListeners();
         ToastHelper.showErrorToast(
           context: context,
-          message: "You have reached your limit of 3 bookings per week!",
+          message: "You have reached your limit of 3 bookings for this week!",
         );
         return;
       }
 
-      /// Proceed with booking since the user has less than 3 bookings this week
+      /// Proceed with booking since the user has less than 3 bookings in the selected week
       await _firestore.collection("SecondYear").add({
         "userName": userName,
         "userUid": userUid,

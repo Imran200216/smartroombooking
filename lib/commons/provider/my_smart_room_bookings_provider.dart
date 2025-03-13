@@ -7,27 +7,10 @@ class MySmartRoomBookingsProvider extends ChangeNotifier {
   bool _isLoading = true;
 
   List<Map<String, dynamic>> get bookings => _bookings;
+
   bool get isLoading => _isLoading;
 
-  void listenToBookings() {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
-
-    FirebaseFirestore.instance
-        .collection('SecondYear')
-        .where('userUid', isEqualTo: user.uid)
-        .snapshots()
-        .listen((snapshot) {
-          _bookings =
-              snapshot.docs
-                  .map((doc) => doc.data() as Map<String, dynamic>)
-                  .toList();
-
-          _isLoading = false;
-          notifyListeners(); // Notify UI only when Firestore updates
-        });
-  }
-
+  /// **Fetch bookings from multiple collections**
   Future<void> fetchCurrentUserBookings() async {
     _isLoading = true;
     notifyListeners();
@@ -43,16 +26,28 @@ class MySmartRoomBookingsProvider extends ChangeNotifier {
 
       String currentUserUid = user.uid;
 
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance
-              .collection('SecondYear')
-              .where('userUid', isEqualTo: currentUserUid)
-              .get();
+      /// **List of collections to fetch**
+      List<String> collections = ['SecondYear', 'ThirdYear', 'FourthYear'];
 
-      _bookings =
+      List<Map<String, dynamic>> allBookings = [];
+
+      /// **Fetch bookings from each collection**
+      for (String collection in collections) {
+        QuerySnapshot querySnapshot =
+            await FirebaseFirestore.instance
+                .collection(collection)
+                .where('userUid', isEqualTo: currentUserUid)
+                .get();
+
+        /// **Add fetched documents to list**
+        allBookings.addAll(
           querySnapshot.docs
               .map((doc) => doc.data() as Map<String, dynamic>)
-              .toList();
+              .toList(),
+        );
+      }
+
+      _bookings = allBookings;
     } catch (e) {
       print("Error fetching user bookings: $e");
       _bookings = [];
@@ -60,5 +55,32 @@ class MySmartRoomBookingsProvider extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  /// **Listen to real-time updates from multiple collections**
+  void listenToBookings() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    List<String> collections = ['SecondYear', 'ThirdYear', 'FourthYear'];
+    List<Map<String, dynamic>> allBookings = [];
+
+    for (String collection in collections) {
+      FirebaseFirestore.instance
+          .collection(collection)
+          .where('userUid', isEqualTo: user.uid)
+          .snapshots()
+          .listen((snapshot) {
+            allBookings.addAll(
+              snapshot.docs
+                  .map((doc) => doc.data() as Map<String, dynamic>)
+                  .toList(),
+            );
+
+            _bookings = allBookings;
+            _isLoading = false;
+            notifyListeners();
+          });
+    }
   }
 }

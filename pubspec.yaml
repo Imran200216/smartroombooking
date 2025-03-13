@@ -77,6 +77,8 @@ dependencies:
   intl: ^0.20.2
   # skeletonizer:
   skeletonizer: ^1.4.3
+  # internet checker
+  connectivity_plus: ^6.1.3
 
 dev_dependencies:
   flutter_test:
